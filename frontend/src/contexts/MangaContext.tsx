@@ -29,6 +29,7 @@ interface MangaContextType {
   getChapters: (mangaId: string) => number[] | undefined;
   loadChapters: (mangaId: string) => Promise<number[]>;
   openReader: (mangaId: string, chapter?: number) => void;
+  saveProgress: (mangaId: string, chapter: number, percent: number) => void;
   closeReader: () => void;
   goToNextChapter: () => void;
   goToPrevChapter: () => void;
@@ -168,11 +169,18 @@ export const MangaProvider: React.FC<{ user: SessionUser; children: React.ReactN
     setReaderState({ isOpen: true, manga, chapter: target });
     if (!known) loadChapters(mangaId);
 
+    // Abrir o capítulo começa em 0%; o leitor vai salvando o quanto a pessoa rolou (saveProgress)
+    const previous = history.find((h) => h.id === mangaId);
+    const percent = previous && previous.chapter === target ? previous.percent : 0;
+    saveProgress(mangaId, target, percent);
+  };
+
+  const saveProgress = (mangaId: string, chapter: number, percent: number) => {
     setHistory((prev) => [
-      { id: mangaId, chapter: target, date: formatDate(new Date().toISOString()), percent: 100 },
+      { id: mangaId, chapter, date: formatDate(new Date().toISOString()), percent },
       ...prev.filter((h) => h.id !== mangaId),
     ]);
-    api.saveHistory(mangaId, target, 100).catch(() => {});
+    api.saveHistory(mangaId, chapter, percent).catch(() => {});
   };
 
   const closeReader = () => setReaderState({ isOpen: false, manga: null, chapter: 1 });
@@ -246,6 +254,7 @@ export const MangaProvider: React.FC<{ user: SessionUser; children: React.ReactN
         getChapters,
         loadChapters,
         openReader,
+        saveProgress,
         closeReader,
         goToNextChapter,
         goToPrevChapter,

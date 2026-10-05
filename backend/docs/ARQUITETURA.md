@@ -18,8 +18,7 @@ backend/
 │   ├── TradutorIA/            # translator_pipeline.py: OCR (Tesseract) + tradução PT-BR + glossário
 │   └── BackupDrive/           # gdrive_backup.py: ZIP da obra e envio para o Google Drive
 ├── scripts/
-│   ├── definir_senha.py       # Define a senha de uma conta pelo terminal
-│   └── seed_data.sql          # Obras e capítulos de exemplo
+│   └── definir_senha.py       # Define a senha de uma conta pelo terminal
 └── docs/                      # Este arquivo e API_ENDPOINTS.md
 ```
 

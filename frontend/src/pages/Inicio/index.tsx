@@ -7,14 +7,13 @@ import { MangaCard } from '@/components/manga/MangaCard';
 export const InicioPage: React.FC = () => {
   const { currentUser, mangas, history, openMangaModal, openReader, setActiveTab, toggleFavorite, isFavorite } = useManga();
   const firstName = (currentUser.name.trim().split(/\s+/)[0] || 'leitor').toUpperCase();
-  const [filter, setFilter] = useState<'all' | 'lendo' | 'manhwa' | 'shonen' | 'completo'>('all');
+  const [filter, setFilter] = useState<'all' | 'lendo' | 'manhwa' | 'completo'>('all');
 
   const historyIds = history.map(h => h.id);
 
   const filteredMangas = mangas.filter(m => {
     if (filter === 'lendo') return historyIds.includes(m.id);
     if (filter === 'manhwa') return m.type.toLowerCase() === 'manhwa';
-    if (filter === 'shonen') return m.genres.includes('Ação') || m.type.toLowerCase() === 'mangá';
     if (filter === 'completo') return m.status === 'concluido';
     return true;
   });
@@ -92,7 +91,7 @@ export const InicioPage: React.FC = () => {
               </h2>
             </div>
             <span className="text-[10px] font-extrabold text-[#00f59b] bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-              MAIS BEM AVALIADO
+              DESTAQUE
             </span>
           </div>
 
@@ -116,10 +115,12 @@ export const InicioPage: React.FC = () => {
               </p>
 
               <div className="flex items-center gap-4 text-xs pt-1">
-                <span className="text-amber-400 font-bold flex items-center gap-1">
-                  <Star className="w-4 h-4 fill-amber-400" />
-                  {featured.rating ? featured.rating.toFixed(1) : '5.0'} {featured.totalRatingsCount > 0 ? `(${featured.totalRatingsCount} avaliações)` : '(Obra Oficial)'}
-                </span>
+                {featured.totalRatingsCount > 0 && (
+                  <span className="text-amber-400 font-bold flex items-center gap-1">
+                    <Star className="w-4 h-4 fill-amber-400" />
+                    {featured.rating.toFixed(1)} ({featured.totalRatingsCount} avaliações)
+                  </span>
+                )}
                 <span className="text-slate-300 font-medium">
                   {featured.chaptersCount} {featured.chaptersCount === 1 ? 'Capítulo Disponível' : 'Capítulos Disponíveis'}
                 </span>
@@ -221,16 +222,6 @@ export const InicioPage: React.FC = () => {
           }`}
         >
           Manhwas {mangas.filter(m => m.type.toLowerCase() === 'manhwa').length}
-        </button>
-        <button
-          onClick={() => setFilter('shonen')}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-            filter === 'shonen'
-              ? 'bg-emerald-500/20 text-[#00f59b] border border-[#00f59b] shadow-[0_0_12px_rgba(0,245,155,0.2)]'
-              : 'bg-[#091a12] text-slate-400 border border-emerald-500/20 hover:text-white'
-          }`}
-        >
-          Shonen {mangas.filter(m => m.genres.includes('Ação') || m.type.toLowerCase() === 'mangá').length}
         </button>
         <button
           onClick={() => setFilter('completo')}

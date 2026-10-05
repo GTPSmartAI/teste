@@ -1,4 +1,4 @@
-# Gera o APK Android do Mangaflix Prime
+﻿# Gera o APK Android do Mangaflix Prime
 # Uso (na raiz do projeto):
 #   powershell -ExecutionPolicy Bypass -File deploy\build-apk.ps1            -> APK de teste (debug)
 #   powershell -ExecutionPolicy Bypass -File deploy\build-apk.ps1 -Release   -> APK assinado para distribuir
@@ -52,4 +52,4 @@ $outDir = Join-Path $root 'apk'
 New-Item -ItemType Directory -Force $outDir | Out-Null
 $dest = Join-Path $outDir ("mangaflix-$kind-" + (Get-Date -Format 'yyyyMMdd-HHmm') + '.apk')
 Copy-Item $src.FullName $dest -Force
-Write-Host "✓ APK gerado com sucesso: $dest ($([math]::Round($src.Length/1MB,1)) MB)" -ForegroundColor Green
+Write-Host "APK gerado com sucesso: $dest ($([math]::Round($src.Length/1MB,1)) MB)" -ForegroundColor Green

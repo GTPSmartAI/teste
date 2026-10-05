@@ -51,10 +51,12 @@ export const MangaCard: React.FC<MangaCardProps> = ({ manga }) => {
         </span>
         <div className="flex items-center justify-between mt-1 text-[10px]">
           <span className="text-[#00f59b] font-bold">{manga.chaptersCount} Caps</span>
-          <span className="text-amber-400 font-bold flex items-center gap-0.5">
-            <Star className="w-3 h-3 fill-amber-400" />
-            {manga.rating}
-          </span>
+          {manga.totalRatingsCount > 0 && (
+            <span className="text-amber-400 font-bold flex items-center gap-0.5">
+              <Star className="w-3 h-3 fill-amber-400" />
+              {manga.rating.toFixed(1)}
+            </span>
+          )}
         </div>
       </div>
     </div>

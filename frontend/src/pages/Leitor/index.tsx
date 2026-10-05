@@ -13,6 +13,8 @@ export const LeitorPage: React.FC = () => {
     hasNextChapter,
     hasPrevChapter,
     getChapters,
+    history,
+    saveProgress,
     getComments,
     loadComments,
     addComment,
@@ -27,6 +29,27 @@ export const LeitorPage: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<'pt' | 'orig'>('pt');
   const [translationStatusMsg, setTranslationStatusMsg] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  // Maior % já salvo deste capítulo (só grava quando passa de 25%, 50%, 75% e 100%)
+  const savedPercentRef = useRef(0);
+
+  useEffect(() => {
+    if (!readerState.manga) return;
+    const h = history.find((item) => item.id === readerState.manga!.id);
+    savedPercentRef.current = h && h.chapter === readerState.chapter ? h.percent : 0;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [readerState.chapter, readerState.manga?.id]);
+
+  const handleScroll = () => {
+    const el = containerRef.current;
+    if (!el || !readerState.manga || loadingPages || chapterPages.length === 0) return;
+    const max = el.scrollHeight - el.clientHeight;
+    const ratio = max > 0 ? el.scrollTop / max : 1;
+    const step = ratio >= 0.95 ? 100 : Math.floor(ratio * 4) * 25;
+    if (step > savedPercentRef.current) {
+      savedPercentRef.current = step;
+      saveProgress(readerState.manga.id, readerState.chapter, step);
+    }
+  };
 
   // Busca páginas reais do capítulo e checa se já existe versão traduzida no MinIO
   useEffect(() => {
@@ -206,6 +229,7 @@ export const LeitorPage: React.FC = () => {
       {/* Pages Container - Rolagem Infinita Contínua Webtoon (Sem emendas) */}
       <div
         ref={containerRef}
+        onScroll={handleScroll}
         className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col items-center bg-[#020503] scroll-smooth"
       >
         <div className="w-full max-w-[680px] flex flex-col items-center">

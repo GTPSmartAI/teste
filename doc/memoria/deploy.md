@@ -15,7 +15,7 @@
 - Tabelas: `usuarios`, `mangas`, `capitulos`, `comentarios`, `favoritos`, `historico_leitura` (criadas pelo `backend/schema_mariadb.sql`) e `sessoes` (criada sozinha pela API ao iniciar).
 - O container chega no banco por `172.17.0.1` (docker0). No computador, pelo túnel SSH que o `iniciar_dev.ps1` abre (`localhost:3306`).
 - As tabelas usam a collation padrão do servidor (`utf8mb4_0900_ai_ci`). Tabela nova não deve fixar outra collation: o JOIN com `usuarios` falha ("Illegal mix of collations").
-- Em 05/10/2026 a base estava **vazia** (nenhuma conta, nenhuma obra). Os dados de exemplo ficam em `backend/scripts/seed_data.sql`.
+- Em 05/10/2026 a base estava **vazia** (nenhuma conta, nenhuma obra). Não existe mais dado de exemplo (fake): o app mostra só o que está no banco.
 
 ## MinIO (imagens)
 

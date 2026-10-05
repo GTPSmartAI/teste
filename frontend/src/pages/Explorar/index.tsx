@@ -8,16 +8,14 @@ export const ExplorarPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [selectedGenre, setSelectedGenre] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [sortOrder, setSortOrder] = useState<'popular' | 'rating' | 'caps'>('popular');
+  const [sortOrder, setSortOrder] = useState<'rating' | 'caps' | 'az'>('caps');
 
+  // Só os gêneros que existem nas obras cadastradas
   const genres = [
     { id: 'all', label: 'Todos os Gêneros' },
-    { id: 'Ação', label: '🔥 Ação' },
-    { id: 'Isekai', label: '🌀 Isekai' },
-    { id: 'Fantasia', label: '✨ Fantasia' },
-    { id: 'Sobrenatural', label: '👁️ Sobrenatural' },
-    { id: 'Aventura', label: '🧭 Aventura' },
-    { id: 'Comédia', label: '🎭 Comédia' },
+    ...Array.from(new Set(mangas.flatMap(m => m.genres)))
+      .sort((a, b) => a.localeCompare(b, 'pt-BR'))
+      .map(g => ({ id: g, label: g })),
   ];
 
   const filtered = mangas
@@ -37,9 +35,10 @@ export const ExplorarPage: React.FC = () => {
       return matchesSearch && matchesGenre && matchesStatus;
     })
     .sort((a, b) => {
-      if (sortOrder === 'rating') return b.rating - a.rating;
-      if (sortOrder === 'caps') return b.chaptersCount - a.chaptersCount;
-      return b.rating * b.chaptersCount - a.rating * a.chaptersCount; // popular
+      // Obra sem nenhuma avaliação conta como sem nota (não como 5 estrelas)
+      if (sortOrder === 'rating') return (b.totalRatingsCount ? b.rating : 0) - (a.totalRatingsCount ? a.rating : 0);
+      if (sortOrder === 'az') return a.title.localeCompare(b.title, 'pt-BR');
+      return b.chaptersCount - a.chaptersCount;
     });
 
   return (
@@ -113,9 +112,9 @@ export const ExplorarPage: React.FC = () => {
             onChange={(e) => setSortOrder(e.target.value as any)}
             className="bg-transparent border-none outline-none text-[#00f59b] font-bold text-xs cursor-pointer"
           >
-            <option value="popular" className="bg-[#0a1712] text-white">Populares</option>
             <option value="rating" className="bg-[#0a1712] text-white">Maior Nota</option>
             <option value="caps" className="bg-[#0a1712] text-white">+ Capítulos</option>
+            <option value="az" className="bg-[#0a1712] text-white">A-Z</option>
           </select>
         </div>
       </div>
@@ -123,7 +122,6 @@ export const ExplorarPage: React.FC = () => {
       {/* Results Count Meta */}
       <div className="flex items-center justify-between text-xs text-slate-500 px-1 pt-1">
         <span>Mostrando {filtered.length} resultados</span>
-        <span className="text-[#00f59b] font-bold">● Catálogo Atualizado</span>
       </div>
 
       {/* Grid */}

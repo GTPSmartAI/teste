@@ -21,7 +21,7 @@ Mesma organização do projeto Aedolia (`Criação de pdf Readers`).
 │   │   ├── IngestaoCapitulos/     # Imagens -> WebP -> MinIO -> banco
 │   │   ├── TradutorIA/            # OCR + tradução PT-BR dos balões
 │   │   └── BackupDrive/           # ZIP da obra para o Google Drive
-│   ├── scripts/                   # definir_senha.py, seed_data.sql
+│   ├── scripts/                   # definir_senha.py
 │   ├── docs/                      # ARQUITETURA.md, API_ENDPOINTS.md
 │   ├── schema_mariadb.sql         # Tabelas da base 'aaa'
 │   └── requirements.txt

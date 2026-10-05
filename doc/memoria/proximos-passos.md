@@ -16,6 +16,7 @@ Depois de trocar, atualizar o `backend/.env` e rodar o deploy. Se o repositório
 
 - **XP e nível:** nada no sistema dá XP ainda; toda conta fica em nível 1 / RANK E. Falta decidir a regra (ex.: XP por capítulo terminado) e gravar os capítulos lidos (hoje `historico_leitura` guarda só o último capítulo de cada obra).
 - **Nota das obras e curtidas em comentários:** as estrelas e curtidas antigas eram só visuais (sumiam ao recarregar) e foram retiradas. Para voltar precisam de tabela no banco.
-- **Progresso de leitura:** abrir um capítulo já marca 100%.
+- **Notas das obras:** a nota só aparece quando a obra tem avaliações (`total_ratings_count` > 0); ainda não existe tela para avaliar.
+- **Progresso de leitura:** o leitor salva 25/50/75/100% conforme a pessoa rola o capítulo.
 - **Tradução IA:** qualquer conta logada pode disparar (é pesado: OCR + tradução + upload). Se virar problema, limitar a `vip`/`admin`.
 - **Catálogo vazio:** a base `aaa` está sem obras. Ingestão: `python backend/components/IngestaoCapitulos/python/ingestion_engine.py --manga <id> --cap <n> --pasta <imagens>` (a obra precisa existir em `mangas`).

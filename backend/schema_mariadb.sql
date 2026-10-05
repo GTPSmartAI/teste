@@ -7,7 +7,7 @@
 CREATE DATABASE IF NOT EXISTS `aaa` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `aaa`;
 
--- 1. Tabela de Usuários / Contas (Multi-login preparado)
+-- 1. Tabela de Usuários / Contas
 CREATE TABLE IF NOT EXISTS `usuarios` (
     `id` VARCHAR(100) NOT NULL PRIMARY KEY,
     `name` VARCHAR(150) NOT NULL,
@@ -22,11 +22,6 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Inserir usuário padrão Alexandre para testes imediatos
-INSERT INTO `usuarios` (`id`, `name`, `email`, `rank`, `level`, `xp`, `role`)
-VALUES ('alexandre', 'Alexandre Guterres', 'alexandre@gtpsmart.com', 'RANK SSS', 42, 8420, 'admin')
-ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
-
 -- 2. Tabela de Mangás e Obras
 CREATE TABLE IF NOT EXISTS `mangas` (
     `id` VARCHAR(100) NOT NULL PRIMARY KEY,
@@ -35,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `mangas` (
     `genres` JSON NULL,
     `cover` TEXT NOT NULL,
     `banner` TEXT NULL,
-    `rating` DECIMAL(3, 2) DEFAULT 5.00,
+    `rating` DECIMAL(3, 2) NULL DEFAULT NULL,
     `total_ratings_count` INT UNSIGNED DEFAULT 0,
     `author` VARCHAR(255) NOT NULL,
     `status` ENUM('lancando', 'concluido') DEFAULT 'lancando',
@@ -54,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `capitulos` (
     `title` VARCHAR(255) NULL,
     `pages_json` JSON NOT NULL, -- Array com as URLs das imagens verticais
     `views_count` INT UNSIGNED DEFAULT 0,
-    `rating` DECIMAL(3, 2) DEFAULT 5.00,
+    `rating` DECIMAL(3, 2) NULL DEFAULT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY `uk_manga_chapter` (`manga_id`, `chapter_number`),
     CONSTRAINT `fk_capitulos_manga` FOREIGN KEY (`manga_id`) REFERENCES `mangas` (`id`) ON DELETE CASCADE
@@ -65,9 +60,9 @@ CREATE TABLE IF NOT EXISTS `comentarios` (
     `id` VARCHAR(100) NOT NULL PRIMARY KEY,
     `manga_id` VARCHAR(100) NOT NULL,
     `chapter_number` INT UNSIGNED NULL, -- NULL indica comentário geral da obra
-    `user_id` VARCHAR(100) NOT NULL DEFAULT 'alexandre',
-    `user_name` VARCHAR(150) NOT NULL DEFAULT 'Alexandre Guterres',
-    `user_rank` VARCHAR(50) NOT NULL DEFAULT 'RANK SSS',
+    `user_id` VARCHAR(100) NOT NULL,
+    `user_name` VARCHAR(150) NOT NULL,
+    `user_rank` VARCHAR(50) NOT NULL DEFAULT 'RANK E',
     `text` TEXT NOT NULL,
     `rating` TINYINT UNSIGNED NULL, -- Nota opcional dada no comentário (1 a 5)
     `likes_count` INT UNSIGNED DEFAULT 0,
@@ -79,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `comentarios` (
 -- 5. Tabela de Favoritos
 CREATE TABLE IF NOT EXISTS `favoritos` (
     `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `user_id` VARCHAR(100) NOT NULL DEFAULT 'alexandre',
+    `user_id` VARCHAR(100) NOT NULL,
     `manga_id` VARCHAR(100) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY `uk_user_manga_fav` (`user_id`, `manga_id`),
@@ -89,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `favoritos` (
 -- 6. Tabela de Histórico de Leitura
 CREATE TABLE IF NOT EXISTS `historico_leitura` (
     `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `user_id` VARCHAR(100) NOT NULL DEFAULT 'alexandre',
+    `user_id` VARCHAR(100) NOT NULL,
     `manga_id` VARCHAR(100) NOT NULL,
     `chapter_number` INT UNSIGNED NOT NULL,
     `percent_read` TINYINT UNSIGNED DEFAULT 100,

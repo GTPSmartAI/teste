@@ -1,4 +1,4 @@
-# Publica o Mangaflix Prime na VPS (Docker Swarm + Traefik):
+﻿# Publica o Mangaflix Prime na VPS (Docker Swarm + Traefik):
 #   frontend -> https://front-teste.iagtp.com.br
 #   backend  -> https://back-api-teste.iagtp.com.br
 #

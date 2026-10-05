@@ -100,10 +100,14 @@ export const MangaDetalhesModal: React.FC = () => {
 
               {/* Avaliação e Status */}
               <div className="flex items-center gap-2 pt-1 text-xs">
-                <span className="text-amber-400 font-bold flex items-center gap-0.5">
-                  <Star className="w-3.5 h-3.5 fill-amber-400" />
-                  {activeManga.rating ? activeManga.rating.toFixed(1) : '5.0'} {activeManga.totalRatingsCount && activeManga.totalRatingsCount > 0 ? `(${activeManga.totalRatingsCount})` : ''}
-                </span>
+                {activeManga.totalRatingsCount > 0 ? (
+                  <span className="text-amber-400 font-bold flex items-center gap-0.5">
+                    <Star className="w-3.5 h-3.5 fill-amber-400" />
+                    {activeManga.rating.toFixed(1)} ({activeManga.totalRatingsCount})
+                  </span>
+                ) : (
+                  <span className="text-slate-500 text-[10px] font-semibold">Sem avaliações</span>
+                )}
                 <span className="text-[#00f59b] font-semibold text-[10px]">
                   {activeManga.status === 'lancando' ? 'Em Lançamento' : 'Concluído'}
                 </span>
