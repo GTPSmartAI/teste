@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-deep: #040906;
+    --bg-card: #09140e;
+    --emerald-glow: #00f59b;
+    --emerald-brand: #10b981;
+  }
+
+  body {
+    background-color: #020503;
+    color: #f1f5f9;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 245, 155, 0.45);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glow effects */
+.glow-emerald {
+  box-shadow: 0 0 24px rgba(0, 245, 155, 0.35);
+}
+
+.glow-emerald-lg {
+  box-shadow: 0 0 40px rgba(0, 245, 155, 0.5);
+}
+
+.glow-gold {
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+}

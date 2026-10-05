@@ -1,0 +1,41 @@
+# Dependências e Builds Web
+node_modules/
+dist/
+dist.new/
+.vite/
+*.local
+
+# Python / Backend
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+*.log
+backend/.env
+.env
+.env.*.local
+backend/.env.local
+backend/uploads/
+backend/scratch/
+gdrive_credentials.json
+
+# Android / Mobile / Gradle
+.gradle/
+build/
+*.keystore
+*.jks
+keystore.properties
+frontend/android/app/build/
+frontend/android/.gradle/
+apk/
+
+# IDE e Sistema
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

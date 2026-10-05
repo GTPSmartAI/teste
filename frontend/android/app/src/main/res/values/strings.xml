@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Mangaflix Prime</string>
+    <string name="title_activity_main">Mangaflix Prime</string>
+    <string name="package_name">com.gtpsmart.mangaflix</string>
+    <string name="custom_url_scheme">com.gtpsmart.mangaflix</string>
+</resources>

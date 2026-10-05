@@ -1,0 +1,22 @@
+{
+  "include": [
+    "main.py",
+    "api_server.py",
+    "shared/python",
+    "components",
+    "scripts"
+  ],
+  "exclude": [
+    "**/__pycache__",
+    "uploads"
+  ],
+  "extraPaths": [
+    "shared/python",
+    "components/IngestaoCapitulos/python",
+    "components/TradutorIA/python",
+    "components/BackupDrive/python"
+  ],
+  "pythonVersion": "3.12",
+  "pythonPlatform": "Windows",
+  "typeCheckingMode": "basic"
+}
